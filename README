@@ -1,0 +1,108 @@
+List of programs for non-compromise opinion dynamics (November 2011).
+Supplement to: Kaan Ozturk, "Dynamics of discrete opinions without compromise", submitted to Advances in Complex Systems. (http://arxiv.org/abs/1112.4624)
+
+opdyn.h, libopdyn.c
+-------------------
+Library code for other programs.
+
+singlerun.c
+--------------------------
+	Uses homogeneous agents and completely connected interaction graph.
+	Initial distribution of opinions is uniform.
+	Runs the simulation once.
+	Prints the popularity array of opinions at every time step.
+	Requires the GNU Scientific Library (for random numbers only -- can be modified to use another library).
+	Compile with:
+	gcc singlerun.c libopdyn.c -std=gnu99 -Wall -lm -lgsl -lgslcblas -o singlerun
+	
+	Example use:
+	singlerun 30 3 1 -- 30 agents, 3 opinions, confidence bound 1.
+	singlerun 30 3 1 1 -- Same as above, with bias to pairwise majority.
+	singlerun 30 3 1 2 -- Same as above, with bias to global majority.
+	
+ensemble.c
+---------------------------------
+	Uses homogeneous agents and completely connected interaction graph.
+	Initial distribution of opinions is uniform.
+	Runs the system many times, prints the absorption time and absorbing state in each case.
+	Output can be captured and analyzed with other programs.
+	Requires the GNU Scientific Library (for random numbers only -- can be modified to use another library).
+	Compile with:
+	gcc ensemble.c libopdyn.c -std=gnu99 -Wall -lm -lgsl -lgslcblas -o ensemble
+	
+	Example use:
+	ensemble 30 3 1 100 -- 30 agents, 3 opinions, confidence bound 1, 100 runs.
+	ensemble 30 3 1 100 1 -- Same as above, with bias to pairwise majority.
+
+opdynmarkovQ3d1.m (Matlab)
+-------------------------------
+	Sets up the Markov matrix for unbiased, homogeneous, completely
+	connected system with three opinions and confidence bound 1.
+	Prints all absorbing states and their probabilities.
+	Plots the probability of state (i,0,N-i) vs. i/N.
+	Plots the cumulative distribution function of absorption time.
+	Runs interactively in Matlab.
+	
+opdynmarkovQ3d1_ver2.m (Matlab)
+-------------------------------
+	Same as above, but the matrix is set up such that at every time step
+	any two agents are paired (opinion change does not have to take 
+	place). This defines a time step as any meeting between
+	agents, whether they are compatible or not. Included here for
+	any possible interest.
+	
+opdynmarkovQ3d2.m (Matlab)
+-------------------------------
+	Sets up the Markov matrix for unbiased, homogeneous, completely
+	connected system with three opinions and confidence bound 1.
+	Prints all absorbing states and their probabilities.
+	Plots the cumulative distribution function of absorption time.
+	(There are no polarized absorbing states.)
+	Runs interactively in Matlab.
+
+opdynmarkovQ4d1.m (Matlab)
+-------------------------------
+	Sets up the Markov matrix for unbiased, homogeneous, completely
+	connected system with four opinions and confidence bound 1.
+	Prints all absorbing states and their probabilities.
+	Plots the probability of state (i,0,0,N-i) vs. i/N.
+	Plots the cumulative distribution function of absorption time.
+	Runs interactively in Matlab.
+	
+opdynvisual.m (Matlab)
+----------------------
+	Visualizes the evolution of the system until absorption.
+	Displays each agent's opinion, and the popularity
+	histogram of opinions at every step.
+	Prints the absorbing state and absorption time.
+	Runs interactively in Matlab.
+	
+absstateprob_C.m (Matlab)
+--------------------------------
+	Runs the C program "ensemble" and captures the output.
+	"ensemble" must be compiled before this program is used.
+	Plots the probability of absorbing state [i, 0, N-i] vs. i
+	Prints the probability of consensus and of polarization.
+	Runs interactively in Matlab.
+	
+absstate_ensemble_generate.m (Matlab)
+-------------------------------------
+	Runs the C program "ensemble" for various N,Q,d and bias.
+	"ensemble" must be compiled before this program is used.
+	For each run:
+		- Generates data file using the program.
+		- Prints the probability vector of having 1,2,3,...
+		 different opinions at absorbing state.
+		- Plots the cumulative distribution function for absorption time.
+	Runs interactively in Matlab.
+	
+Auxiliary files
+---------------
+Required by the programs above.
+opdyn.h
+libopdyn.c
+BiasToMajority.m
+BiasToMean.m
+Unbiased.m
+issteady.m
+
